@@ -5,4 +5,4 @@ if [ $# -ne 1 ]; then
     exit -1
 fi
 
-sudo db_bench --db=/home/fwu/levelmount --num=$(($1*1024)) --value_size=1008 --benchmarks=fillrandom,stats | tee db.log
+sudo db_bench --db=/home/fwu/levelmount --num=$(($1*1024)) --value_size=1008 --benchmarks=fillrandom,readrandom,stats | tee db.log
