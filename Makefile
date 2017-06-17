@@ -6,6 +6,6 @@ all:
 test:
 	rm -rf r$(LEVEL_RATIO)s$(SIZE)M
 	mkdir r$(LEVEL_RATIO)s$(SIZE)M
-	(cd r$(LEVEL_RATIO)s$(SIZE)M && ../run.sh $(SIZE))
+	(cd r$(LEVEL_RATIO)s$(SIZE)M && sudo ../run.sh $(SIZE))
 
 
