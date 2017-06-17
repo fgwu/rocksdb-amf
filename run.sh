@@ -1,7 +1,7 @@
 #!/bin/bash
 BDEV=loop0
 DEV=/dev/$BDEV
-MOUNTPOINT=/home/$USER/levelmount
+MOUNTPOINT=/home/fwu/levelmount
 
 if [ $# -ne 1 ]; then
     echo usage: $0 [num]
@@ -11,7 +11,10 @@ else
 fi
 
 rm -rf *
+echo "sudo blktrace $DEV  & PID=$!; sleep 1 ; ../bench.sh $num $DEV $MOUNTPOINT; echo kill $PID; sudo kill $PID"
+
 sudo blktrace $DEV  & PID=$!; sleep 1 ; ../bench.sh $num $DEV $MOUNTPOINT; echo kill $PID; sudo kill $PID
+
 sleep 1
 blkparse $BDEV > events.log
 sleep 1
