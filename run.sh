@@ -1,5 +1,5 @@
 #!/bin/bash
-BDEV=loop0
+BDEV=nvme0n1
 DEV=/dev/$BDEV
 MOUNTPOINT=/home/fwu/levelmount
 

@@ -19,9 +19,11 @@ if ! mountpoint -q $3; then
     sudo mount -t xfs $2 $3
 fi
 
-echo "sudo db_bench --db=$3 --num=$(($1*1024)) --value_size=1008 --benchmarks=fillrandom,stats,seekrandom,stats | tee db.log"
+echo "sudo db_bench --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --benchmarks=fillrandom,stats,seekrandom,stats,readrandom,stats | tee db.log"
 
-sudo db_bench --db=$3 --num=$(($1*1024)) --value_size=1008 --benchmarks=fillrandom,stats,seekrandom,stats | tee db.log
+#sudo db_bench --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --benchmarks=fillrand,stats,seekrandom,stats | tee db.log
+
+sudo db_bench --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --amplification_factor=7 --benchmarks=fillrandom,stats,seekrandom,stats,readrandom,stats | tee db.log
 
 echo sudo umount $3
 sudo umount $3
