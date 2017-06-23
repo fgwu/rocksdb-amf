@@ -1,5 +1,6 @@
 #!/bin/bash
-
+DB_BENCH=/home/fwu/leveldb/out-static/db_bench
+DB_BENCH=/home/fwu/rocksdb_official/db_bench
 
 if [ $# -ne 4 ]; then
     echo usage: $0 db_size_in_M bdevname mountpoint amplification_factor
@@ -21,7 +22,7 @@ fi
 
 echo "sudo db_bench --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --amplification_factor=$4 --benchmarks=fillrandom,stats,seekrandom,stats,readrandom,stats | tee db.log"
 
-sudo db_bench --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --amplification_factor=$4 --benchmarks=fillrandom,stats,seekrandom,stats,readrandom,stats,overwrite,stats,readwhilewriting,stats  | tee db.log
+sudo $DB_BENCH --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --amplification_factor=$4 --benchmarks=fillrandom,stats,seekrandom,stats,readrandom,stats,overwrite,stats,readwhilewriting,stats  | tee db.log
 
 
 echo sudo umount $3
