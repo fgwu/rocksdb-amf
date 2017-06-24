@@ -14,10 +14,16 @@ all:
 	make test AF=10  SIZE=10000
 	make test AF=20  SIZE=10000
 
+	make p99-plot
+
+p99-plot:
+	cat */p99.log | sort -k3,3d -k1,1g -k2,2g > p99_total.log
+	./split_p99.sh
+
 test:
 	rm -rf r$(AF)s$(SIZE)M
 	mkdir r$(AF)s$(SIZE)M
 	(cd r$(AF)s$(SIZE)M && sudo ../run.sh $(SIZE) $(AF))
 	chown fwu:fwu r$(AF)s$(SIZE)M
-	cat */p99.log  | sort -k3,3d -k1,1g -k2,2g > p99_total.log
+
 
