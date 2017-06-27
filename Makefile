@@ -2,22 +2,15 @@ all:
 	make test AF=4  SIZE=100
 	make test AF=7  SIZE=100
 	make test AF=10  SIZE=100
-	make test AF=20  SIZE=100
 
 	make test AF=4  SIZE=1000
 	make test AF=7  SIZE=1000
 	make test AF=10  SIZE=1000
-	make test AF=20  SIZE=1000
 
-	make test AF=4  SIZE=10000
+#	make test AF=4  SIZE=10000
 	make test AF=7  SIZE=10000
 	make test AF=10  SIZE=10000
-	make test AF=20  SIZE=10000
 
-	make p99-plot
-
-p99-plot:
-	cat */p99.log | sort -k3,3d -k1,1g -k2,2g > p99_total.log
 	./split_p99.sh
 
 test:
