@@ -11,7 +11,7 @@ set style fill solid border -1
 set boxwidth .65
 
 set key invert nobox
-
+set multiplot layout 2,1
 set ylabel 'avg latency (us)'
 plot 'BENCH_avg.log' u ($2):xtic(1) t 'AF=4',\
      '' u ($3) t 'AF=7', \

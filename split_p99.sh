@@ -3,7 +3,7 @@ if [ ! -d p99 ]; then
 fi
 
 
-rm p99/*
+rm -f p99/*
 
 cat */p99.log  | sort -k3,3d -k1,1g -k2,2g |sed -e 's/\t/ /g' >  p99/p99_total.log
 
