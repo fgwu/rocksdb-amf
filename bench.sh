@@ -39,6 +39,9 @@ run_bench $@ seekrandom 1
 run_bench $@ readrandom 1
 run_bench $@ overwrite 1
 run_bench $@ readwhilewriting 1
+run_bench $@ readseq 1
+run_bench $@ readhot 1
+run_bench $@ readmissing 1
 
 cat iostat.log | awk -v data_size_M=$1 'BEGIN{lastr=-1; lastw=-1}{if (lastr >= 0){print $1, data_size_M, $5 - lastr, $6 - lastw, ($5 - lastr)/data_size_M, ($6 - lastw)/data_size_M;} lastr = $5; lastw = $6}' | tee iostat_adv.log
 
