@@ -26,7 +26,7 @@ if ! mountpoint -q $MOUNTPOINT; then
 fi
 
 
-sudo blktrace $DEV  & PID=$!; sleep 1 ; ../bench.sh $1 $DEV $MOUNTPOINT $2; echo kill $PID; sudo kill $PID
+sudo blktrace $DEV  & PID=$!; sleep 1 ; ../bench.sh $1 $DEV $MOUNTPOINT $2 fillrandom 0; echo kill $PID; sudo kill $PID
 
 
 
