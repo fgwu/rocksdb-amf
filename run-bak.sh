@@ -9,30 +9,9 @@ then
 fi
 
 rm -rf *
-
-
-if [ ! -d $MOUNTPOINT ]; then
-    echo mkdir -p $MOUNTPOINT
-    mkdir -p $MOUNTPOINT
-fi
-
-
-if ! mountpoint -q $MOUNTPOINT; then
-    echo sudo mkfs.xfs -f $DEV
-    sudo mkfs.xfs -f $DEV
-
-    echo sudo mount -t xfs $DEV $MOUNTPOINT
-    sudo mount -t xfs $DEV $MOUNTPOINT
-fi
-
+echo "sudo blktrace $DEV  & PID=$!; sleep 1 ; ../bench.sh $1 $DEV $MOUNTPOINT$2; echo kill $PID; sudo kill $PID"
 
 sudo blktrace $DEV  & PID=$!; sleep 1 ; ../bench.sh $1 $DEV $MOUNTPOINT $2; echo kill $PID; sudo kill $PID
-
-
-
-echo sudo umount $MOUNTPOINT
-sudo umount $MOUNTPOINT
-
 
 sleep 1
 blkparse $BDEV > events.log
