@@ -22,7 +22,7 @@ test:
 	rm -rf r$(AF)s$(SIZE)M
 	mkdir r$(AF)s$(SIZE)M
 	(cd r$(AF)s$(SIZE)M && sudo ../run.sh $(SIZE) $(AF))
-	chown fwu:fwu r$(AF)s$(SIZE)M
+	sudo chown -R fwu:fwu r$(AF)s$(SIZE)M
 
 
 other: 
