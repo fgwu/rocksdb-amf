@@ -19,7 +19,7 @@ plot:
 	./split_p99.sh
 
 test:
-	rm -rf r$(AF)s$(SIZE)M
+	sudo rm -rf r$(AF)s$(SIZE)M
 	mkdir r$(AF)s$(SIZE)M
 	(cd r$(AF)s$(SIZE)M && sudo ../run.sh $(SIZE) $(AF))
 	sudo chown -R fwu:fwu r$(AF)s$(SIZE)M
@@ -40,3 +40,8 @@ big:
 big2:
 	make test AF=4  SIZE=200000
 	make test AF=10  SIZE=200000
+
+small:
+	make test AF=4  SIZE=1000
+	make test AF=10  SIZE=1000
+

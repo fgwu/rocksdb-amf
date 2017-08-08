@@ -1,6 +1,8 @@
 #!/bin/bash
 
 DB_BENCH=/home/fwu/leveldb/out-static/db_bench
+FLAME_GRAPH_PATH=/home/fwu/FlameGraph
+BCC_TOOLS_PATH=/usr/share/bcc/tools
 #DB_BENCH=/home/fwu/rocksdb_official/db_bench
 
 if [ $# -ne 6 ]; then
@@ -10,8 +12,16 @@ fi
 
 iostat -m | grep `basename $2`  | sed "s/`basename $2`/start/g" | tee $5_iostat.log
 
-    sudo $DB_BENCH --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --max_bytes_for_level_multiplier=$4  --benchmarks=$5,amp_stats,stats --use_existing_db=$6 | tee $5_db.log
-#--max_grandparent_overlap_factor=$overlap
+
+sudo -- bash -c " mkfifo myfifo.$$; $DB_BENCH --db=$3 --num=$(($1*1024)) --value_size=1008 --histogram=1 --compression_ratio=1 --max_bytes_for_level_multiplier=$4  --benchmarks=$5,amp_stats,stats --use_existing_db=$6 > myfifo.$$ &  PID=\$!; tee $5_db.log < myfifo.$$ & (trap - SIGINT; $BCC_TOOLS_PATH/profile -f -p \$PID > $5.profile )& (trap - SIGINT; $BCC_TOOLS_PATH/offcputime -f -p \$PID > $5.offcpu )&  wait \$PID; echo PID \$PID completed.; rm -f myfifo.$$;"
+
+echo  kill -SIGINT `pgrep -x profile`; kill -SIGINT `pgrep -x profile`
+echo  kill -SIGINT `pgrep -x offcputime`; kill -SIGINT `pgrep -x offcputime`
+
+#flamegraph.pl < fillrandom.profile --title="Profile Flame Graph" --countname=ms --width=600 > fillrandom.profile.svg
+#flamegraph.pl < fillrandom.offcpu --title="Off-CPU Time Flame Graph" --color=io --countname=ms --width=600 > fillrandom.offcpu.svg
+
+
     iostat -m | grep `basename $2`  | sed "s/`basename $2`/$5/g" | tee -a $5_iostat.log
 
 
