@@ -47,9 +47,9 @@ fi
 
 run_bench fillrandom 0
 #run_bench seekrandom 1
-run_bench readrandom 1
+#run_bench readrandom 1
 #run_bench overwrite 1
-run_bench readwhilewriting 1
+#run_bench readwhilewriting 1
 #run_bench readseq 1
 #run_bench readhot 1
 #run_bench readmissing 1

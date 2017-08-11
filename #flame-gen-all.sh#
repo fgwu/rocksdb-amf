@@ -1,0 +1,3 @@
+for dir in 'r*s*M'; do
+    echo $dir
+done
