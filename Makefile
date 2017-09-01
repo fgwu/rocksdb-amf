@@ -14,6 +14,17 @@ all:
 	make test AF=10  SIZE=10000
 #	make test AF=20  SIZE=10000
 
+	make test AF=4  SIZE=100000
+#	make test AF=7  SIZE=10000
+	make test AF=10  SIZE=100000
+#	make test AF=20  SIZE=10000
+
+	make test AF=4  SIZE=100000
+#	make test AF=7  SIZE=10000
+	make test AF=10  SIZE=100000
+#	make test AF=20  SIZE=10000
+
+
 plot:
 	./batch_p99.sh
 	./split_p99.sh
@@ -21,7 +32,8 @@ plot:
 test:
 	sudo rm -rf r$(AF)s$(SIZE)M
 	mkdir r$(AF)s$(SIZE)M
-	(cd r$(AF)s$(SIZE)M && sudo ../run.sh $(SIZE) $(AF))
+#	(cd r$(AF)s$(SIZE)M && sudo ../run.sh $(SIZE) $(AF))
+	(cd r$(AF)s$(SIZE)M && sudo ../run-lite.sh $(SIZE) $(AF))
 	sudo chown -R fwu:fwu r$(AF)s$(SIZE)M
 
 
@@ -31,7 +43,7 @@ other:
 	make test AF=20  SIZE=10000
 
 dummy:
-	make test AF=10  SIZE=100
+	make test AF=10  SIZE=1000
 
 big:
 	make test AF=4  SIZE=100000

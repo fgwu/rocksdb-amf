@@ -9,13 +9,19 @@ AMF_HOME=/home/fwu/blktrace
 function run_bench
 {
     mkdir $1 && cd $1
-    echo    "sudo blktrace $DEV  & PID=$!; sleep 1 ; $AMF_HOME/bench.sh $SIZE $DEV $MOUNTPOINT $AF $1 $2; echo kill $PID; sudo kill $PID"
-    sudo blktrace $DEV  & PID=$!; sleep 1 ; $AMF_HOME/bench.sh $SIZE $DEV $MOUNTPOINT $AF $1 $2; echo kill $PID; sudo kill $PID
+    if [ $2 -eq 0 ]; then
+	BENCH_SIZE=$SIZE
+    else
+	BENCH_SIZE=$SMALL_SIZE
+    fi
+    
+#    echo    "sudo blktrace $DEV  & PID=$!; sleep 1 ; $AMF_HOME/bench.sh $BENCH_SIZE $DEV $MOUNTPOINT $AF $1 $2; echo kill $PID; sudo kill $PID"
+#    sudo blktrace $DEV  & PID=$!; sleep 1 ; $AMF_HOME/bench.sh $BENCH_SIZE $DEV $MOUNTPOINT $AF $1 $2; echo kill $PID; sudo kill $PID
 
-    sleep 1
-    blkparse $BDEV > $1_blk.log
-    sleep 1
 
+    echo  $AMF_HOME/bench.sh $BENCH_SIZE $DEV $MOUNTPOINT $AF $1 $2
+    $AMF_HOME/bench.sh $BENCH_SIZE $DEV $MOUNTPOINT $AF $1 $2
+    
     cd ..
 
     mv $1/*.log .
@@ -28,6 +34,7 @@ then
 fi
 
 SIZE=$1
+SMALL_SIZE=1000
 AF=$2
 
 if [ ! -d $MOUNTPOINT ]; then
@@ -44,10 +51,10 @@ if ! mountpoint -q $MOUNTPOINT; then
     sudo mount -t xfs $DEV $MOUNTPOINT
 fi
 
-
+#run_bench fillseq 0
 run_bench fillrandom 0
 #run_bench seekrandom 1
-#run_bench readrandom 1
+run_bench readrandom 1
 #run_bench overwrite 1
 #run_bench readwhilewriting 1
 #run_bench readseq 1
