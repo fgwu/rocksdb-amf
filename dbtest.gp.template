@@ -1,0 +1,29 @@
+reset
+
+set terminal postscript eps color enhanced size 8,5 font "Times-Roman" 22
+set output 'db_bench.eps'
+
+set style data histogram
+set style histogram cluster gap 1
+set style fill solid border -1
+set boxwidth 0.5
+
+set key outside right
+#set ytics 5
+set yrange [0:*]
+set xlabel "DB Size (MB)"
+
+
+set style fill solid
+set multiplot layout 2,1
+
+set title 'bench, Latency'
+set ylabel "Avg Latency (us)" 
+plot 'db_bench.csv' u 3:xtic(1) t 'AF=4' lt rgb "#ff0000", \
+     '' u 8:xtic(1) t 'AF=10' lt rgb "#0000ff"
+
+set title 'bench, P99.9'
+set ylabel "Latency" 
+plot 'db_bench.csv' u 6:xtic(1) t 'AF=4' lt rgb "#ff0000", \
+     '' u 11:xtic(1) t 'AF=10' lt rgb "#0000ff"
+
